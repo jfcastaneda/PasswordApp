@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.IO.IsolatedStorage;
+using System.Collections.ObjectModel;
 
 namespace PasswordApp
 {
@@ -63,24 +65,52 @@ namespace PasswordApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            //if none in storage create an empty passwordlist so checks on item counts and such don't crash
+            if (!settings.Contains("PasswordList"))
+            {
+                Settings.PasswordsList = new ObservableCollection<Password>();
+            }
+            //if it exists, restore it to app
+            else
+            {
+                Settings.PasswordsList = settings["PasswordList"] as ObservableCollection<Password>;
+            }
+
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("PasswordList"))
+            {
+                Settings.PasswordsList = PhoneApplicationService.Current.State["PasswordList"] as ObservableCollection<Password>;
+            }
+            else
+            {
+                //create new one??? this shouldn't happen??
+                Settings.PasswordsList = new ObservableCollection<Password>();
+            }
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            PhoneApplicationService.Current.State["PasswordList"] = Settings.PasswordsList;
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings["PasswordList"] = Settings.PasswordsList;
+            settings.Save();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings["PasswordList"] = Settings.PasswordsList;
+            settings.Save();
         }
 
         // Code to execute if a navigation fails

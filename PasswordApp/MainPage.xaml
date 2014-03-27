@@ -11,7 +11,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
 
     <!-- Style and DateCoverter Resources-->
     <phone:PhoneApplicationPage.Resources>
@@ -26,6 +26,7 @@
         <Style TargetType="TextBlock" x:Key="PassModified">
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}"></Setter>
         </Style>
+
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -46,7 +47,7 @@
                     <DataTemplate>
                         <Border Width="400" MinHeight="60">
                             <StackPanel>
-                                <TextBox Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBox>
+                                <TextBlock Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBlock>
                                 <TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>
                             </StackPanel>
                         </Border>
@@ -59,7 +60,7 @@
  
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Add" Click="ApplicationBarIconButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/appbar.add.png" Text="Add" Click="ApplicationBarIconButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     

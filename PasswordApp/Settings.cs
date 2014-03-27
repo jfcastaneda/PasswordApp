@@ -25,16 +25,10 @@ namespace PasswordApp
 {
     public static class Settings
     {
-        public IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+        static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 
-        public static ObservableCollection<Password> PasswordsList
-        {
+        public static ObservableCollection<Password> PasswordsList;
 
-        }
-
-        public int CurrentIndex
-        {
-
-        }
+        public static int CurrentIndex{get;set;}
     }
 }
