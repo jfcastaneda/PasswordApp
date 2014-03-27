@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.Windows.Navigation;
 
 namespace PasswordApp
 {
@@ -19,6 +20,11 @@ namespace PasswordApp
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override virtual void OnNavigatedTo(NavigationEventArgs e)
+        {
+
         }
 
         private void Passwords_SelectionChanged(object sender, SelectionChangedEventArgs e)
