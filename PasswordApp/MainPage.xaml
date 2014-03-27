@@ -6,7 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -19,6 +19,12 @@
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="PassTitle">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="PassModified">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}"></Setter>
         </Style>
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -38,27 +44,23 @@
             <ListBox x:Name="Passwords" Grid.Row="1" SelectionChanged="Passwords_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBox Text="{Binding Title}"></TextBox>
-                        </StackPanel>
+                        <Border Width="400" MinHeight="60">
+                            <StackPanel>
+                                <TextBox Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBox>
+                                <TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <TextBlock x:Name="NoPassLabel" Grid.Row="1" Text="NO PASSWORDS" Style="{StaticResource NoPass}"></TextBlock>
-        </Grid>
-        
+        </Grid>  
     </Grid>
  
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
+    <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Add" Click="ApplicationBarIconButton_Click"/>
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
-
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
 </phone:PhoneApplicationPage>
