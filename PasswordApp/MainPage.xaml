@@ -13,6 +13,14 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
+    <!-- Style and DateCoverter Resources-->
+    <phone:PhoneApplicationPage.Resources>
+        <Style TargetType="TextBlock" x:Key="NoPass">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -36,6 +44,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <TextBlock x:Name="NoPassLabel" Grid.Row="1" Text="NO PASSWORDS" Style="{StaticResource NoPass}"></TextBlock>
         </Grid>
         
     </Grid>
