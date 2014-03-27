@@ -10,13 +10,15 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 /*
- * Password Keeper V1: This program will allow the user to store their passwords
+ * PasswordApp: This program will allow the user to store their passwords
  * in one convenient application on their Windows Phone
+ * 
+ * Password.cs: This file holds the password class that is used to store the passwords.
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
  * Last Update 3/11/2014
- * Added documentation to all cs files, and did initial setup of project.
+ * Added Password class, added documentation to Password.cs
  */
 
 namespace PasswordApp

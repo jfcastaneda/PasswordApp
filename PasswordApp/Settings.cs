@@ -18,7 +18,8 @@ using System.Collections.ObjectModel;
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
  * Last Update 3/11/2014
- * Added documentation to all cs files, and did initial setup of project.
+ * Added Settings class, and pupulated it with the three required items. Also added
+ * documentation
  */
 
 namespace PasswordApp
@@ -26,9 +27,7 @@ namespace PasswordApp
     public static class Settings
     {
         static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-
         public static ObservableCollection<Password> PasswordsList;
-
         public static int CurrentIndex{get;set;}
     }
 }

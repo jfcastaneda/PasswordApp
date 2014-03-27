@@ -13,6 +13,19 @@ using Microsoft.Phone.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Tasks;
 
+/*
+ * PasswordApp: This program will allow the user to save
+ * their passwords on their phone.
+ * 
+ * DetailsPage.xaml.cs: This file holds the Details classes and methods.
+ * 
+ * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
+ * 
+ * Last Update 3/26/2014
+ * Added setup email method. Added documentation
+ */
+
+
 namespace PasswordApp
 {
     public partial class DetailsPage : PhoneApplicationPage
@@ -23,6 +36,8 @@ namespace PasswordApp
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Make initaltex! Check if the user didnt want to check anything.
+            // So it wont bind an emty item
             if(Settings.CurrentIndex!=-1)
             {
                 Password curpass = Settings.PasswordsList[Settings.CurrentIndex];
@@ -53,9 +68,7 @@ namespace PasswordApp
                         base.OnNavigatingFrom(e);
                     }
                 }
-         }
-
-
+        }
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //arrived to create new password
@@ -70,10 +83,10 @@ namespace PasswordApp
             if (MessageBox.Show("Are you sure you want to delete this password?", "Delete Item", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
                 Settings.PasswordsList.RemoveAt(Settings.CurrentIndex);
-                Settings.CurrentIndex = -1;//index no longer valid for deleted item
+                Settings.CurrentIndex = -1; //index no longer valid for deleted item
                 if (this.NavigationService.CanGoBack)
                 {
-                    this.NavigationService.GoBack();//this triggers onnavigatefrom which tries to delete item again...
+                    this.NavigationService.GoBack(); //this triggers onnavigatefrom which tries to delete item again...
                 }
             }
         }
@@ -90,7 +103,6 @@ namespace PasswordApp
         private void ApplicationBarIconButton_check_Click(object sender, EventArgs e)
         {
             actualsave();
-
         }
         private void actualsave()
         {
@@ -111,7 +123,7 @@ namespace PasswordApp
                     {
                         Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
                     }
-                    else//title and content changed so update timestamp too
+                    else //title and content changed so update timestamp too
                     {
                         Settings.PasswordsList[Settings.CurrentIndex].Title = thetitle.Text;
                         Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;

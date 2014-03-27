@@ -21,14 +21,17 @@ namespace PasswordApp
         public MainPage()
         {
             InitializeComponent();
+            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.DataContext = null;
-            this.DataContext = Settings.PasswordsList;
-            Settings.CurrentIndex = -1;
-            Passwords.SelectedIndex = -1;
+            //This means we just entered the MainPage of the app
+            
+            //Settings.CurrentIndex = -1;
+            //Passwords.SelectedIndex = -1;
+
+            //Check if we need to hide the no passwords message
             if (Settings.PasswordsList.Count == 0)
             {
                 NoPassLabel.Visibility = Visibility.Visible;
@@ -41,6 +44,7 @@ namespace PasswordApp
 
         private void Passwords_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Check if we actually want the SelectionChanged event to fire
             if (Passwords.SelectedIndex > -1)
             {
                 Settings.CurrentIndex = Passwords.SelectedIndex;   // set current node value
@@ -50,6 +54,7 @@ namespace PasswordApp
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
+            //Create new instance of Password, set DateTime and store data,
             Password pass = new Password();
             pass.Modified = DateTimeOffset.Now;
             Settings.PasswordsList.Insert(0, pass);
@@ -57,9 +62,13 @@ namespace PasswordApp
             NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-
+            Passwords.DataContext = Settings.PasswordsList;
+            foreach (Password p in Settings.PasswordsList)
+                {
+                    Passwords.Items.Add(p);
+                }
         }
     }
 }

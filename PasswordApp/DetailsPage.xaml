@@ -6,13 +6,13 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:PasswordApp"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True"  Loaded="PhoneApplicationPage_Loaded"
-   >
+    shell:SystemTray.IsVisible="True"  Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -21,13 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-       <!-- <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>!-->
-
-        <!--ContentPanel - place additional content here-->
+        <!--ContentPanel - Password entry title and content is placed here-->
         <ScrollViewer>
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
                 <Grid.RowDefinitions>
@@ -44,7 +38,7 @@
         </ScrollViewer>
     </Grid>
  
-    <!--Sample code showing usage of ApplicationBar-->
+    <!--App bar with three buttond for password management-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/appbar.delete.png" Text="Delete current password"  Click="ApplicationBarIconButton_delete_Click"/>
