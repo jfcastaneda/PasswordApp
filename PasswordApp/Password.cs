@@ -23,8 +23,20 @@ namespace PasswordApp
 {
     public class Password
     {
-        public DateTimeOffset Modified {get; set;}
-        public string Title {get; set;}
-        public string Content {get; set;}
+        public DateTimeOffset Modified 
+        {
+            get { return Modified; }
+            set { Modified = value; }
+        }
+        public string Title 
+        {
+            get { return Title; }
+            set { Title = value; }
+        }
+        public string Content
+        {
+            get { return Content; }
+            set { Content = value; }
+        }
     }
 }
