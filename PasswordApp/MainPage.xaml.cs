@@ -20,5 +20,10 @@ namespace PasswordApp
         {
             InitializeComponent();
         }
+
+        private void Passwords_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
