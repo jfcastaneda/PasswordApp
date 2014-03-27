@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.IO.IsolatedStorage;
+using System.Collections.ObjectModel;
 
 /*
  * Password Keeper V1: This program will allow the user to store their passwords
@@ -26,7 +27,7 @@ namespace PasswordApp
     {
         public IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
 
-        public static System.Collections.ObjectModel.ObservableCollection<Password> PasswordsList
+        public static ObservableCollection<Password> PasswordsList
         {
 
         }
