@@ -21,8 +21,8 @@ using Microsoft.Phone.Tasks;
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
- * Last Update 3/26/2014
- * Added setup email method. Added documentation
+ * Last Update 3/28/2014
+ * Changed handling of DateTimeOffSet, added more comments.
  */
 
 
@@ -30,10 +30,17 @@ namespace PasswordApp
 {
     public partial class DetailsPage : PhoneApplicationPage
     {
+        /* 
+         * The main class and constructor where execution begins. 
+         */
         public DetailsPage()
         {
             InitializeComponent();
         }
+
+        /*
+         * Launches when the user nagivates to the page and loads saved data if needed
+         */
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if(Settings.CurrentIndex!=-1)
@@ -44,6 +51,10 @@ namespace PasswordApp
             }
 
         }
+
+        /*
+         * Launches when leaving the page to remove entry if nessesary.
+         */
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (Settings.CurrentIndex == -1) return;//we have an invalid note index(probably already deleted), don't check for change
@@ -67,6 +78,10 @@ namespace PasswordApp
                     }
                 }
         }
+
+        /*
+         * Launches when the page is loaded and if user is creating a password it sets focus
+         */
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             //arrived to create new password
@@ -76,6 +91,10 @@ namespace PasswordApp
             }
         }
 
+        /*
+         * Handles deleting event when button is clicked
+         * Removes by index then goes back
+         */
         private void ApplicationBarIconButton_delete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete this password?", "Delete Item", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
@@ -88,6 +107,13 @@ namespace PasswordApp
                 }
             }
         }
+
+
+
+        /*
+         * Handles email event when button is clicked
+         * Send to email handler
+         */
         private void ApplicationBarIconButton_email_Click(object sender, EventArgs e)
         {
             EmailComposeTask eeeemail = new EmailComposeTask();
@@ -96,11 +122,18 @@ namespace PasswordApp
             eeeemail.To = "z147395@students.niu.edu";
             eeeemail.Show();
         }
-        //save password
+
+        /* Handles even of clicking the save button
+         * calls the save function
+         */
         private void ApplicationBarIconButton_check_Click(object sender, EventArgs e)
         {
             actualsave();
         }
+
+        /*
+         * Saves data into Isolated Storage!
+         */
         private void actualsave()
         {
             if (String.IsNullOrEmpty(thecontent.Text) || String.IsNullOrEmpty(thetitle.Text))
@@ -122,10 +155,9 @@ namespace PasswordApp
                     }
                     else //title and content changed so update timestamp too
                     {
-                        DateTimeOffset CurrentTime = DateTimeOffset.Now;
                         Settings.PasswordsList[Settings.CurrentIndex].Title = thetitle.Text;
                         Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
-                        Settings.PasswordsList[Settings.CurrentIndex].Modified = CurrentTime;
+                        Settings.PasswordsList[Settings.CurrentIndex].Modified = DateTimeOffset.Now;
                     }
                 }
                 MessageBox.Show("Password Saved");
