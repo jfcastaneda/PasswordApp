@@ -28,8 +28,8 @@ namespace PasswordApp
         {
             //This means we just entered the MainPage of the app
             
-            //Settings.CurrentIndex = -1;
-            //Passwords.SelectedIndex = -1;
+            Settings.CurrentIndex = -1;
+            Passwords.SelectedIndex = -1;
 
             //Check if we need to hide the no passwords message
             if (Settings.PasswordsList.Count == 0)
@@ -64,6 +64,7 @@ namespace PasswordApp
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            Passwords.Items.Clear();
             Passwords.DataContext = Settings.PasswordsList;
             foreach (Password p in Settings.PasswordsList)
                 {

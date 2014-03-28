@@ -54,7 +54,7 @@
                         <Border Width="400" MinHeight="60">
                             <StackPanel>
                                 <TextBlock Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBlock>
-                                <TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>
+                                <!--<TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>-->
                             </StackPanel>
                         </Border>
                     </DataTemplate>

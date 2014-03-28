@@ -127,10 +127,13 @@ namespace PasswordApp
                     {
                         Settings.PasswordsList[Settings.CurrentIndex].Title = thetitle.Text;
                         Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
-                        Settings.PasswordsList[Settings.CurrentIndex].Modified = DateTimeOffset.Now;
+                        //Settings.PasswordsList[Settings.CurrentIndex].Modified = DateTimeOffset.Now;
                     }
                 }
                 MessageBox.Show("Password Saved");
+                MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Title);
+                MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Content);
+                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Modified);
             }
         }
     }
