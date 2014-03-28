@@ -36,8 +36,6 @@ namespace PasswordApp
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Make initaltex! Check if the user didnt want to check anything.
-            // So it wont bind an emty item
             if(Settings.CurrentIndex!=-1)
             {
                 Password curpass = Settings.PasswordsList[Settings.CurrentIndex];
@@ -90,7 +88,6 @@ namespace PasswordApp
                 }
             }
         }
-
         private void ApplicationBarIconButton_email_Click(object sender, EventArgs e)
         {
             EmailComposeTask eeeemail = new EmailComposeTask();
@@ -125,15 +122,17 @@ namespace PasswordApp
                     }
                     else //title and content changed so update timestamp too
                     {
+                        DateTimeOffset CurrentTime = DateTimeOffset.Now;
                         Settings.PasswordsList[Settings.CurrentIndex].Title = thetitle.Text;
                         Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
-                        //Settings.PasswordsList[Settings.CurrentIndex].Modified = DateTimeOffset.Now;
+                        Settings.PasswordsList[Settings.CurrentIndex].Modified = CurrentTime;
                     }
                 }
                 MessageBox.Show("Password Saved");
-                MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Title);
-                MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Content);
-                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Modified);
+                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Title);
+                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Content);
+                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Modified.ToString);
+                
             }
         }
     }

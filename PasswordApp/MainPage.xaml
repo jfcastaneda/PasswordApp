@@ -42,7 +42,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="Password Keeper" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="PASSWORDS" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -53,8 +53,10 @@
                     <DataTemplate>
                         <Border Width="400" MinHeight="60">
                             <StackPanel>
-                                <TextBlock Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBlock>
-                                <!--<TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>-->
+                                <Border Name="border" BorderBrush="Aqua" BorderThickness="2" Padding="10">
+                                    <TextBlock Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBlock>
+                                </Border>
+                                <!-- <TextBox Style="{StaticResource PassModified}" Text="{Binding Modified}"></TextBox>-->
                             </StackPanel>
                         </Border>
                     </DataTemplate>

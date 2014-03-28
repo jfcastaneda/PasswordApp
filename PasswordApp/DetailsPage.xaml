@@ -33,7 +33,7 @@
                 <TextBlock Text="Title" Grid.Row="0"></TextBlock>
                 <TextBox x:Name="thetitle"  Grid.Row="1"></TextBox>
                 <TextBlock Text="Content" Grid.Row="2"></TextBlock>
-                <TextBox x:Name="thecontent"  Grid.Row="3" AcceptsReturn="true" InputScope="Text" TextWrapping="Wrap"></TextBox>
+                <TextBox x:Name="thecontent"  Grid.Row="3" AcceptsReturn="true" InputScope="Text" TextWrapping="Wrap" Width="Auto" Height="Auto"></TextBox>
         </Grid>
         </ScrollViewer>
     </Grid>
