@@ -29,7 +29,7 @@ namespace PasswordApp
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             DateTimeOffset thisdate = (DateTimeOffset)value;
-            return thisdate.ToString("d t");
+            return thisdate.ToString("MM/dd/yy h:mm");
         }
         // ConvertBack is not implemented for a OneWay binding.
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

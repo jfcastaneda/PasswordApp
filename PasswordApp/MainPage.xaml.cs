@@ -26,12 +26,6 @@ namespace PasswordApp
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //This means we just entered the MainPage of the app
-            DateTime exampleDate = new DateTime(2008, 5, 1, 18, 32, 6);
-
-            // Display the date using the current (en-US) culture.
-            MessageBox.Show(exampleDate.ToString());
-
             Settings.CurrentIndex = -1;
             Passwords.SelectedIndex = -1;
 

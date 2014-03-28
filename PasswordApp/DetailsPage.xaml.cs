@@ -129,10 +129,6 @@ namespace PasswordApp
                     }
                 }
                 MessageBox.Show("Password Saved");
-                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Title);
-                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Content);
-                //MessageBox.Show(Settings.PasswordsList[Settings.CurrentIndex].Modified.ToString);
-                
             }
         }
     }
