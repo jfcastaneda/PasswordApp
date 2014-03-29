@@ -26,8 +26,8 @@ namespace PasswordApp
 {
     public static class Settings
     {
-        static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-        public static ObservableCollection<Password> PasswordsList;
-        public static int CurrentIndex{get;set;}
+        static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings; // Holds isolated storage for the app
+        public static ObservableCollection<Password> PasswordsList; // List of password class that will hold the users passwords
+        public static int CurrentIndex{get;set;} // Holds the index so we can see what password we are working with
     }
 }

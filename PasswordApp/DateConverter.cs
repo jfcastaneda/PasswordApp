@@ -28,6 +28,7 @@ namespace PasswordApp
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            // Turn into string and format correctly
             DateTimeOffset thisdate = (DateTimeOffset)value;
             return thisdate.ToString("MM/dd/yy h:mm");
         }
