@@ -48,6 +48,9 @@ namespace PasswordApp
          */
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //Per assingment guidelines
+            Passwords.DataContext = null;
+            Passwords.DataContext = Settings.PasswordsList;
             Settings.CurrentIndex = -1;
             Passwords.SelectedIndex = -1;
 
@@ -96,7 +99,6 @@ namespace PasswordApp
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             Passwords.Items.Clear();
-            Passwords.DataContext = Settings.PasswordsList;
             foreach (Password p in Settings.PasswordsList)
                 {
                     Passwords.Items.Add(p);

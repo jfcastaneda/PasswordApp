@@ -45,6 +45,7 @@ namespace PasswordApp
         {
             if(Settings.CurrentIndex!=-1)
             {
+                // Make a backup of what we started with, so we can restore later, or check against it.
                 Password curpass = Settings.PasswordsList[Settings.CurrentIndex];
                 if(!String.IsNullOrEmpty(curpass.Title)) thetitle.Text = curpass.Title;
                 if(!String.IsNullOrEmpty(curpass.Content)) thecontent.Text = curpass.Content;
@@ -73,8 +74,28 @@ namespace PasswordApp
                     {
                         actualsave();
                         //this part cancels navigation otherwise user will not be able to respond to any errors from save function without losing their stuff :(
-                        e.Cancel=true;
+                        e.Cancel = true;
                         base.OnNavigatingFrom(e);
+                    }
+                    else
+                    {
+                        // Here if the user doesnt want to make changes we can restore from curpass, or delete the entry if it was a new one that the user
+                        // doesnt want to save.
+
+                        if (!String.IsNullOrEmpty(curpass.Title) && !String.IsNullOrEmpty(curpass.Content)) // Check if we have a backup of what was initially loaded
+                        {
+                            // If we have a backup, restore it before exiting
+                            Settings.PasswordsList[Settings.CurrentIndex].Title = curpass.Title;
+                            Settings.PasswordsList[Settings.CurrentIndex].Content = curpass.Content;
+                            Settings.PasswordsList[Settings.CurrentIndex].Modified = curpass.Modified;
+                        }
+                        else
+                        {
+                            // If we dont have a backup, it was a new entry, so just delete what is left of it
+                            Settings.PasswordsList.RemoveAt(Settings.CurrentIndex);
+                            Settings.CurrentIndex = -1; //index no longer valid for deleted item
+                        }
+
                     }
                 }
         }
@@ -108,8 +129,6 @@ namespace PasswordApp
             }
         }
 
-
-
         /*
          * Handles email event when button is clicked
          * Send to email handler
@@ -117,7 +136,7 @@ namespace PasswordApp
         private void ApplicationBarIconButton_email_Click(object sender, EventArgs e)
         {
             EmailComposeTask eeeemail = new EmailComposeTask();
-            eeeemail.Subject = "pass phishing";
+            eeeemail.Subject = Settings.PasswordsList[Settings.CurrentIndex].Title;
             eeeemail.Body = Settings.PasswordsList[Settings.CurrentIndex].Content;
             eeeemail.To = "z147395@students.niu.edu";
             eeeemail.Show();
