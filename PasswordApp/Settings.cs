@@ -26,8 +26,17 @@ namespace PasswordApp
 {
     public static class Settings
     {
-        static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings; // Holds isolated storage for the app
+        public static IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings; // Holds isolated storage for the app
         public static ObservableCollection<Password> PasswordsList; // List of password class that will hold the users passwords
         public static int CurrentIndex{get;set;} // Holds the index so we can see what password we are working with
+        public static string HashedPassword{get;set;}//gets/sets string hashedPassword
+        public static string PasswordHint{get;set;}// gets/sets string passwordHint.
+        public static string Password{get;set;}// gets/sets string password (this is clear text password - kept in memory only during life of app)
+        public static bool IsLoggedIn{get;set;}// gets/sets bool isLoggedIn.
+        public static byte[] Salt{get;set;}// gets/sets byte[] salt. this salt is used for password hashing
+        public static byte[] SymmSalt { get; set; }// I added this salt for AES encryption/decryption. Using the same salt for hash/key generation seems insecure
+        public static string BackupName { get; set; }// gets/sets string backupName.
+
+
     }
 }
