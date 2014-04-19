@@ -25,8 +25,8 @@ namespace PasswordApp
 {
     public class Password
     {
+        public DateTimeOffset Modified { get; set; } // The time that the password was modified or stored
         public string Title { get; set; } // Title for the password entry  
-        public string EncryptedContent { get; set; } // Content for the password entry
-        public string Content { get; set; } // Plaintext content for password entry
+        public string Content { get; set; } // Content for the password entry
     }
 }

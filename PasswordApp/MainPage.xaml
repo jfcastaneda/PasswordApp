@@ -6,13 +6,33 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:PasswordApp"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="MainPage_Loaded">
 
+    <!-- Style and DateCoverter Resources-->
+    <phone:PhoneApplicationPage.Resources>
+        <!-- No Password Label Style -->
+        <Style TargetType="TextBlock" x:Key="NoPass">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+        <!-- Password box display style -->
+        <Style TargetType="TextBlock" x:Key="PassTitle">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="PassModified">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}"></Setter>
+        </Style>
+        <!-- Dateconverter declared as resource for usage here -->
+        <local:DateConverter x:Key="DateConverter"/>
+    </phone:PhoneApplicationPage.Resources>
+    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -22,47 +42,36 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="Passwords" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="PASSWORDS" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ScrollViewer>
-                <Grid>
-                    <StackPanel Visibility="Collapsed" FlowDirection="LeftToRight">
-                        <!--holds controls for new user-->
-                        <TextBlock FontWeight="Bold">Welcome!</TextBlock>
-                        <TextBlock TextWrapping="Wrap" Margin="10">
-                            Choose a password that you'll remember. There is no way to recover it if you forget it later
-                        </TextBlock>
-                        <TextBlock>New Password</TextBlock>
-                        <PasswordBox></PasswordBox>
-                        <TextBlock>Verify New Password</TextBlock>
-                        <PasswordBox></PasswordBox>
-                        <TextBlock>Provide A Name For Your Backup Set</TextBlock>
-                        <TextBox></TextBox>
-                        <TextBlock>Password Hint(Optional)</TextBlock>
-                        <TextBox></TextBox>
-                        <Button Content="Ok" Width="250"></Button>
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock FontWeight="Bold">Enter Your Password</TextBlock>
-                        <TextBox></TextBox>
-                        <Button Content="Ok" Width="250"></Button>
-                        <!--holds controls for normal login-->
-                    </StackPanel>
-                </Grid>
-            </ScrollViewer>
-        </Grid>
+            <ListBox x:Name="Passwords" Grid.Row="1" SelectionChanged="Passwords_SelectionChanged">
+                <!-- Will be pupulated in the codebehind with user stored passwords-->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="400" MinHeight="60">
+                            <StackPanel>
+                                <Border Name="border" BorderBrush="Aqua" BorderThickness="2" Padding="10">
+                                    <TextBlock Style="{StaticResource PassTitle}" Text="{Binding Title}"></TextBlock>
+                                </Border>
+                                <TextBlock Style="{StaticResource PassModified}" Text="{Binding Modified, Converter= {StaticResource DateConverter}, Mode=OneWay}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!-- This is displayed when there are no passwords -->
+            <TextBlock x:Name="NoPassLabel" Grid.Row="1" Text="NO PASSWORDS" Style="{StaticResource NoPass}"></TextBlock>
+        </Grid>  
     </Grid>
- 
-    <!--Sample code showing usage of ApplicationBar-->
+
+    <!-- App bar with single button for adding entry -->
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Password Hint" Click="ApplicationBarMenuItem_Click"/>
-            </shell:ApplicationBar.MenuItems>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/appbar.add.png" Text="Add" Click="ApplicationBarIconButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-
+    
 </phone:PhoneApplicationPage>
