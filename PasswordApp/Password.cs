@@ -27,5 +27,6 @@ namespace PasswordApp
     {
         public string Title { get; set; } // Title for the password entry  
         public string EncryptedContent { get; set; } // Content for the password entry
+        public string Content { get; set; } // Plaintext content for password entry
     }
 }
