@@ -65,16 +65,13 @@ namespace PasswordApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            //if none in storage create an empty passwordlist so checks on item counts and such don't crash
-            if (!settings.Contains("PasswordList"))
+            if (Settings.settings.Contains("HashedPassword"))
             {
-                Settings.PasswordsList = new ObservableCollection<Password>();
+                Settings.HashedPassword = (string)Settings.settings["HashedPassword"];
             }
-            //if it exists, restore it to app
             else
             {
-                Settings.PasswordsList = settings["PasswordList"] as ObservableCollection<Password>;
+
             }
 
         }
@@ -83,14 +80,23 @@ namespace PasswordApp
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey("PasswordList"))
+            if (!e.IsApplicationInstancePreserved)//need to recreate state
             {
-                Settings.PasswordsList = PhoneApplicationService.Current.State["PasswordList"] as ObservableCollection<Password>;
-            }
-            else
-            {
-                //create new one??? this shouldn't happen??
-                Settings.PasswordsList = new ObservableCollection<Password>();
+
+                Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
+                Settings.Password = (string)PhoneApplicationService.Current.State["Password"];
+                Settings.Salt=(byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
+                Settings.BackupName = (string)PhoneApplicationService.Current.State["BackupName"];// gets/sets string backupName.
+
+                if (PhoneApplicationService.Current.State.ContainsKey("PasswordList"))
+                {
+                    Settings.PasswordsList = PhoneApplicationService.Current.State["PasswordList"] as ObservableCollection<Password>;
+                }
+                else
+                {
+                    //create new one??? this shouldn't happen??
+                    Settings.PasswordsList = new ObservableCollection<Password>();
+                }
             }
         }
 
@@ -98,21 +104,33 @@ namespace PasswordApp
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            // save hashed password, password hint, backup name, salt value, and the PasswordsList to both State and isolated storage.
+            PhoneApplicationService.Current.State["PasswordHint"] = Settings.PasswordHint;
+            PhoneApplicationService.Current.State["Password"] = Settings.Password ;
+            PhoneApplicationService.Current.State["Salt"]= Settings.Salt;
+            PhoneApplicationService.Current.State["BackupName"]= Settings.BackupName;// gets/sets string backupName.
             PhoneApplicationService.Current.State["PasswordList"] = Settings.PasswordsList;
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            settings["PasswordList"] = Settings.PasswordsList;
-            settings.Save();
+            SaveToIsolatedStorage();
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            SaveToIsolatedStorage();
+        }
+
+        // Code to save to isolated storage
+        // This code can be called from any state in app.xaml.cs and will take from settings and save to ISO
+        private void SaveToIsolatedStorage()
+        {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings["PasswordHint"] = Settings.PasswordHint;
+            settings["Salt"] = Settings.Salt;
+            settings["BackupName"] = Settings.BackupName;
             settings["PasswordList"] = Settings.PasswordsList;
             settings.Save();
         }
-
         // Code to execute if a navigation fails
         private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {

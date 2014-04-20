@@ -48,7 +48,9 @@ namespace PasswordApp
                 // Make a backup of what we started with, so we can restore later, or check against it.
                 Password curpass = Settings.PasswordsList[Settings.CurrentIndex];
                 if(!String.IsNullOrEmpty(curpass.Title)) thetitle.Text = curpass.Title;
-                if(!String.IsNullOrEmpty(curpass.Content)) thecontent.Text = curpass.Content;
+
+                //need to do this with encrypted content now
+                if (!String.IsNullOrEmpty(Crypto.Decrypt(curpass.EncryptedContent, Settings.Password))) thecontent.Text = Crypto.Decrypt(curpass.EncryptedContent, Settings.Password);
             }
 
         }
@@ -68,7 +70,7 @@ namespace PasswordApp
 
             //check if anything changed
             Password curpass = Settings.PasswordsList[Settings.CurrentIndex];
-                if (curpass.Content != thecontent.Text || curpass.Title != thetitle.Text)
+                if (Crypto.Decrypt(curpass.EncryptedContent,Settings.Password) != thecontent.Text || curpass.Title != thetitle.Text)
                 {
                     if (MessageBox.Show("Save Changes?", "Abandon Notice", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                     {
@@ -82,12 +84,11 @@ namespace PasswordApp
                         // Here if the user doesnt want to make changes we can restore from curpass, or delete the entry if it was a new one that the user
                         // doesnt want to save.
 
-                        if (!String.IsNullOrEmpty(curpass.Title) && !String.IsNullOrEmpty(curpass.Content)) // Check if we have a backup of what was initially loaded
+                        if (!String.IsNullOrEmpty(curpass.Title) && !String.IsNullOrEmpty(Crypto.Decrypt(curpass.EncryptedContent, Settings.Password))) // Check if we have a backup of what was initially loaded
                         {
                             // If we have a backup, restore it before exiting
                             Settings.PasswordsList[Settings.CurrentIndex].Title = curpass.Title;
-                            Settings.PasswordsList[Settings.CurrentIndex].Content = curpass.Content;
-                            Settings.PasswordsList[Settings.CurrentIndex].Modified = curpass.Modified;
+                            Settings.PasswordsList[Settings.CurrentIndex].EncryptedContent = curpass.EncryptedContent;
                         }
                         else
                         {
@@ -137,7 +138,7 @@ namespace PasswordApp
         {
             EmailComposeTask eeeemail = new EmailComposeTask();
             eeeemail.Subject = Settings.PasswordsList[Settings.CurrentIndex].Title;
-            eeeemail.Body = Settings.PasswordsList[Settings.CurrentIndex].Content;
+            eeeemail.Body = Crypto.Decrypt(Settings.PasswordsList[Settings.CurrentIndex].EncryptedContent,Settings.Password);
             eeeemail.To = "z147395@students.niu.edu";
             eeeemail.Show();
         }
@@ -165,18 +166,17 @@ namespace PasswordApp
             if (curpass != null)//make sure something is here(sanity check)
             {
                 //content changed!
-                if (curpass.Content != thecontent.Text)
+                if (Crypto.Decrypt(curpass.EncryptedContent,Settings.Password) != thecontent.Text)
                 {
                     //same title?
                     if (curpass.Title == thetitle.Text)//title is same so only update content
                     {
-                        Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
+                        Settings.PasswordsList[Settings.CurrentIndex].EncryptedContent = Crypto.Encrypt(thecontent.Text,Settings.Password);
                     }
                     else //title and content changed so update timestamp too
                     {
                         Settings.PasswordsList[Settings.CurrentIndex].Title = thetitle.Text;
-                        Settings.PasswordsList[Settings.CurrentIndex].Content = thecontent.Text;
-                        Settings.PasswordsList[Settings.CurrentIndex].Modified = DateTimeOffset.Now;
+                        Settings.PasswordsList[Settings.CurrentIndex].EncryptedContent = Crypto.Encrypt(thecontent.Text, Settings.Password);
                     }
                 }
                 MessageBox.Show("Password Saved");
