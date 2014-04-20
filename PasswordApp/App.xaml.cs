@@ -67,11 +67,12 @@ namespace PasswordApp
         {
             if (Settings.settings.Contains("HashedPassword"))
             {
+                // This means we have an existing user, go to login page
                 Settings.HashedPassword = (string)Settings.settings["HashedPassword"];
             }
             else
             {
-
+                // This means that we do not have an user, go to new user page
             }
 
         }
