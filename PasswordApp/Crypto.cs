@@ -12,10 +12,26 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
+/*
+ * PasswordApp: This program will allow the user to save
+ * their passwords on their phone.
+ * 
+ * Crypto.cs: This file holds the Crypto class.
+ * 
+ * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
+ * 
+ * Last Update 4/14/2014
+ * Added all the crypto methods. 
+ */
+
 namespace PasswordApp
 {
     public static class Crypto
     {
+        /*
+         * This method handles using the password to encrypt the provided data.
+         * Will return the encrypted data
+         */
         public static string Encrypt(string data, string password)
         {
             var algorithm = GetAlgorithm(password);
@@ -33,6 +49,11 @@ namespace PasswordApp
             }
 
         }
+
+        /*
+         * This method handles using the password to decrypt the provided data.
+         * Will return the decrypted data
+         */
         public static string Decrypt(string data, string password)
         {
             //to avoid errors
@@ -51,16 +72,17 @@ namespace PasswordApp
                 return Encoding.UTF8.GetString(buffer, 0, buffer.Length);
             }
         }
+
+        /*
+         * This method handles using the hasging the password
+         * Will return the hashed password
+         */
         public static string Hash(string password)
         {
-            // create PRNG 
-            RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
- 
             //load array of bytes
             byte[] saltBytes = Settings.Salt;
 
             // fill array with strong sequence of bytes 
-            csp.GetBytes(saltBytes); 
             byte[] dataBytes = Encoding.UTF8.GetBytes(password); 
             byte[] allBytes = new byte[saltBytes.Length + dataBytes.Length]; 
             saltBytes.CopyTo(allBytes, 0); 
@@ -69,6 +91,12 @@ namespace PasswordApp
             string hashedPassword = Convert.ToBase64String(hash);
             return hashedPassword;
         }
+
+
+        /*
+         * This method handles using generating new salt bytes
+         * Will return the salt bytes
+         */
         public static byte[] GenerateNewSalt(int length)
         {
             byte[] random = new Byte[length];
@@ -79,6 +107,11 @@ namespace PasswordApp
             rng.GetBytes(random);
             return random;
         }
+
+        /*
+         * This method handles setting up the algorithm for encoding
+         * Will return the algorythim value
+         */
         static SymmetricAlgorithm GetAlgorithm(string password)
         {
             SymmetricAlgorithm sa = new AesManaged();

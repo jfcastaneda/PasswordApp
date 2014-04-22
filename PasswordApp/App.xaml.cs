@@ -67,7 +67,7 @@ namespace PasswordApp
         {
             if (Settings.settings.Contains("HashedPassword"))
             {
-                // This means we have an existing user, go to login page
+                // This means we have an existing user, load
                 Settings.HashedPassword = (string)Settings.settings["HashedPassword"];
                 Settings.Salt = (byte[])Settings.settings["Salt"];
             }
@@ -77,7 +77,7 @@ namespace PasswordApp
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            if (!e.IsApplicationInstancePreserved)//need to recreate state
+            if (!e.IsApplicationInstancePreserved) //need to recreate state
             {
 
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
@@ -91,7 +91,7 @@ namespace PasswordApp
                 }
                 else
                 {
-                    //create new one??? this shouldn't happen??
+                    //Create new one... but this shouldn't happen. I'm paranoid.
                     Settings.PasswordsList = new ObservableCollection<Password>();
                 }
             }
@@ -124,7 +124,6 @@ namespace PasswordApp
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             settings["PasswordHint"] = Settings.PasswordHint;
             settings["Salt"] = Settings.Salt;
-            settings["BackupName"] = Settings.BackupSet;
             settings["PasswordList"] = Settings.PasswordsList;
             settings["HashedPassword"] = Settings.HashedPassword;
             settings.Save();

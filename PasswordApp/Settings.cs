@@ -17,7 +17,11 @@ using System.Collections.ObjectModel;
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
- * Last Update 3/11/2014
+ * Last Update 4/19/2014
+ * Changed class for encrypted version. Added HashedPassword, PasswordHint, Password
+ * IsloggedIn, Salt, and BackupSet.
+ * 
+ * Update 3/11/2014
  * Added Settings class, and pupulated it with the three required items. Also added
  * documentation
  */

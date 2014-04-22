@@ -17,11 +17,14 @@ using System.Windows.Data;
  * PasswordApp: This program will allow the user to save
  * their passwords on their phone.
  * 
- * MainPage.xaml.cs: This file holds the Details classes and methods.
+ * ListPage.xaml.cs: This file holds the Details classes and methods.
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
- * Last Update 3/28/2014
+ * Update 4/20/2014 
+ * Removed Modified Property data binding * 
+ * 
+ * Update 3/28/2014:
  * Changed handling of DateTimeOffSet, added more comments.
  * Also changed the population of the listbox in the MainPage_Loaded Function
  * Added the clear to make sure that the list will always be accurate and not
@@ -107,6 +110,11 @@ namespace PasswordApp
             {
                 NavigationService.RemoveBackEntry();
             }
+        }
+
+        private void ApplicationBarIconButton_Click_1(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/PassChangePage.xaml", UriKind.Relative));
         }
     }
 }

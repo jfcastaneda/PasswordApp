@@ -21,7 +21,10 @@ using Microsoft.Phone.Tasks;
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
- * Last Update 3/28/2014
+ * Last Update 4/20/2014
+ * Changed the way that content is handled, so that it is always encrypted/decypted.
+ * 
+ * Update 3/28/2014
  * Changed handling of DateTimeOffSet, added more comments.
  */
 

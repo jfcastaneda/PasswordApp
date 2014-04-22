@@ -17,7 +17,10 @@ using System.Windows.Shapes;
  * 
  * Programmers: Jose Castaneda z1701983 and Mark Gunlogson Z147395
  * 
- * Last Update 3/11/2014
+ * Last Update 4/19/2014
+ * Removed Modified, and changed content to EncryptedContent
+ * 
+ * Update 3/11/2014
  * Added Password class, added documentation to Password.cs
  */
 
