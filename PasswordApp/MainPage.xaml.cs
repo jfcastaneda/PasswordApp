@@ -27,26 +27,18 @@ namespace PasswordApp
             }
             else
             {
-                //create new one??? this shouldn't happen??
                 Settings.PasswordsList = new ObservableCollection<Password>();
             }
-            if (Settings.settings.Contains("Password"))
+            if (Settings.settings.Contains("HashedPassword"))
             {
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
-                Settings.Password = (string)PhoneApplicationService.Current.State["Password"];
+                Settings.Password = (string)PhoneApplicationService.Current.State["HashedPassword"];
                 Settings.Salt = (byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
-                Settings.BackupName = (string)PhoneApplicationService.Current.State["BackupName"];// gets/sets string backupName.
+                Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupSet"];// gets/sets string backupName.
             }
         }
         public MainPage()
-        {
-            //run thread
-            // create second thread and indicate its method to execute is StartMethod
-            Thread worker = new Thread(new ThreadStart(FetchState));
-            worker.Name = "Worker";                              // give it a name as well
-            // worker.Priority = ThreadPriority.AboveNormal;
-            worker.Start(); 
-            
+        {          
             // start it
             InitializeComponent();
             if (Settings.settings.Contains("HashedPassword"))
@@ -70,13 +62,22 @@ namespace PasswordApp
             if (Settings.settings.Contains("HashedPassword") && Settings.IsLoggedIn == false)//normal login
             {
                 //get password from passwordbox and hash it
-                var pass=EnterPassword.Password;
+                var pass = EnterPassword.Password;
                 Crypto.Hash(pass);
+
                 //then check against password from isolated storage
                 if (pass == Settings.HashedPassword)//passwords match
                 {
                     Settings.Password = pass;//set password property
                     Settings.IsLoggedIn = true;
+
+                    //create second thread and indicate its method to execute is FetchState
+                    Thread worker = new Thread(new ThreadStart(FetchState));
+                    worker.Name = "FetchState";
+                    worker.Start();
+
+                    //then navigate to list page
+                    this.NavigationService.Navigate(new Uri("/ListPage.xaml", UriKind.Relative));
                 }
                 //if not matched, display messagebox
                 else
@@ -109,13 +110,22 @@ namespace PasswordApp
                             // generate new salt and save it
                             var salt=Crypto.GenerateNewSalt(16);
                             Settings.Salt = salt;
+
                             //hash hassword with it and set settings.hashedpassword
                             var newpassword=Crypto.Hash(NewPassword.Password);
                             Settings.HashedPassword = newpassword;
-                            //also save hint,backup name,and cleartext password
-                            Settings.BackupName = BackupSet.Text;
+                            
+                            //also save hint,backup name,and cleartext password and setup password list
+                            Settings.BackupSet = BackupSet.Text;
                             Settings.PasswordHint = PasswordHint.Text;
                             Settings.Password = NewPassword.Password;
+                            Settings.PasswordsList = new ObservableCollection<Password>();
+
+                            //save to isolated storage
+                            Settings.settings["HashedPassword"] = newpassword;
+                            Settings.settings["BackupSet"] = BackupSet.Text;
+                            Settings.settings["PasswordHint"] = PasswordHint.Text;
+
                             //then set isloggedin to true and navigate to listviewpage
                             Settings.IsLoggedIn = true;
                             this.NavigationService.Navigate(new Uri("/ListPage.xaml", UriKind.Relative));
@@ -127,6 +137,11 @@ namespace PasswordApp
                 }
 
             }
+        }
+
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

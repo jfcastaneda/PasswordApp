@@ -102,6 +102,11 @@ namespace PasswordApp
                 {
                     Passwords.Items.Add(p);
                 }
+
+            while (NavigationService.CanGoBack)
+            {
+                NavigationService.RemoveBackEntry();
+            }
         }
     }
 }

@@ -87,7 +87,7 @@ namespace PasswordApp
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
                 Settings.Password = (string)PhoneApplicationService.Current.State["Password"];
                 Settings.Salt=(byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
-                Settings.BackupName = (string)PhoneApplicationService.Current.State["BackupName"];// gets/sets string backupName.
+                Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupName"];// gets/sets string backupName.
 
                 if (PhoneApplicationService.Current.State.ContainsKey("PasswordList"))
                 {
@@ -109,7 +109,7 @@ namespace PasswordApp
             PhoneApplicationService.Current.State["PasswordHint"] = Settings.PasswordHint;
             PhoneApplicationService.Current.State["Password"] = Settings.Password ;
             PhoneApplicationService.Current.State["Salt"]= Settings.Salt;
-            PhoneApplicationService.Current.State["BackupName"]= Settings.BackupName;// gets/sets string backupName.
+            PhoneApplicationService.Current.State["BackupName"]= Settings.BackupSet;// gets/sets string backupName.
             PhoneApplicationService.Current.State["PasswordList"] = Settings.PasswordsList;
             SaveToIsolatedStorage();
         }
@@ -128,7 +128,7 @@ namespace PasswordApp
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             settings["PasswordHint"] = Settings.PasswordHint;
             settings["Salt"] = Settings.Salt;
-            settings["BackupName"] = Settings.BackupName;
+            settings["BackupName"] = Settings.BackupSet;
             settings["PasswordList"] = Settings.PasswordsList;
             settings.Save();
         }
