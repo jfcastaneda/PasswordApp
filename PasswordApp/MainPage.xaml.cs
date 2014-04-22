@@ -63,20 +63,20 @@ namespace PasswordApp
             {
                 //get password from passwordbox and hash it
                 var pass = EnterPassword.Password;
-                Crypto.Hash(pass);
+                var hashPass = Crypto.Hash(pass);
 
                 //then check against password from isolated storage
-                if (pass == Settings.HashedPassword)//passwords match
+                if (hashPass == Settings.HashedPassword)//passwords match
                 {
                     Settings.Password = pass;//set password property
-                    Settings.IsLoggedIn = true;
 
                     //create second thread and indicate its method to execute is FetchState
                     Thread worker = new Thread(new ThreadStart(FetchState));
                     worker.Name = "FetchState";
                     worker.Start();
 
-                    //then navigate to list page
+                    //then set isloggedin to true and navigate to listviewpage
+                    Settings.IsLoggedIn = true;
                     this.NavigationService.Navigate(new Uri("/ListPage.xaml", UriKind.Relative));
                 }
                 //if not matched, display messagebox
@@ -124,8 +124,14 @@ namespace PasswordApp
                             //save to isolated storage
                             Settings.settings["HashedPassword"] = newpassword;
                             Settings.settings["BackupSet"] = BackupSet.Text;
-
-                            Settings.settings["PasswordHint"] = PasswordHint.Text;
+                            if (PasswordHint.Text == null)
+                            {
+                                Settings.settings["PasswordHint"] = "No hint! :(";
+                            }
+                            else
+                            {
+                                Settings.settings["PasswordHint"] = PasswordHint.Text;
+                            }
 
                             //then set isloggedin to true and navigate to listviewpage
                             Settings.IsLoggedIn = true;

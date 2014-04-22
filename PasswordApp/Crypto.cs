@@ -56,12 +56,8 @@ namespace PasswordApp
             // create PRNG 
             RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
  
-            // create or load array of bytes
-            byte[] saltBytes = new byte[16];
-            if (Settings.settings.Contains("SaltBytes"))
-            {
-               saltBytes = (byte[])Settings.settings["SaltBytes"];
-            }
+            //load array of bytes
+            byte[] saltBytes = Settings.SaltBytes;
 
             // fill array with strong sequence of bytes 
             csp.GetBytes(saltBytes); 
@@ -71,14 +67,13 @@ namespace PasswordApp
             dataBytes.CopyTo(allBytes, saltBytes.Length); 
             byte[] hash = new SHA256Managed().ComputeHash(allBytes); 
             string hashedPassword = Convert.ToBase64String(hash);
-            Settings.settings["SaltBytes"] = saltBytes;
             return hashedPassword;
         }
         public static byte[] GenerateNewSalt(int length)
         {
             byte[] random = new Byte[length];
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-
+           
             //getnonzerobytes does not exist on this windows phone verion
             //getbytes is also cryptographically strong and I don't see the advantage of one over the other
             rng.GetBytes(random);
