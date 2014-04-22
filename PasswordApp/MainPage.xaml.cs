@@ -33,20 +33,20 @@ namespace PasswordApp
             {
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
                 Settings.Password = (string)PhoneApplicationService.Current.State["HashedPassword"];
-                Settings.Salt = (byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
-                Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupSet"];// gets/sets string backupName.
+                Settings.Salt = (byte[])Settings.settings["Salt"];
+                Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupSet"];
             }
         }
         public MainPage()
         {          
-            // start it
+
             InitializeComponent();
             if (Settings.settings.Contains("HashedPassword"))
             {
                 // This means we have an existing user, go to login page
                 NewUser.Visibility = Visibility.Collapsed;
                 AlreadyUser.Visibility = Visibility.Visible;
-                //make sure menubar is visible
+                ApplicationBar.IsVisible = true;
             }
             else
             {
@@ -82,7 +82,7 @@ namespace PasswordApp
                 //if not matched, display messagebox
                 else
                 {
-                    MessageBox.Show("password entered does not match stored password :( . Try again");
+                    MessageBox.Show("Password entered is incorrect. Please try again.");
                 }
 
             }
@@ -131,17 +131,14 @@ namespace PasswordApp
                             this.NavigationService.Navigate(new Uri("/ListPage.xaml", UriKind.Relative));
 
                         }
-
                     }
-
                 }
-
             }
         }
 
         private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show((string)Settings.settings["PasswordHint"]);
         }
     }
 }
