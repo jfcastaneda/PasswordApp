@@ -65,16 +65,17 @@ namespace PasswordApp
                     else //all good
                     {
                         //decrypt old passwords
-                        List<string> decryptedpasswords=new List<string>();
-                        for(int i=0;i<Settings.PasswordsList.Count;i++)
+                        List<string> decryptedpasswords = new List<string>();
+                        for(int i=0; i < Settings.PasswordsList.Count; i++)
                         {
-                            var decryptedpass=Crypto.Decrypt(Settings.PasswordsList[i].EncryptedContent,Settings.Password);
-                            decryptedpasswords[i]=decryptedpass;
+                            var decryptedpass = Crypto.Decrypt(Settings.PasswordsList[i].EncryptedContent,Settings.Password);
+                            decryptedpasswords.Add(decryptedpass);
                         }
+
                         //create and assign new salt and hash
                         var newsalt = Crypto.GenerateNewSalt(16);
-                        var newpasshash = Crypto.Hash(NewPassword.Password);
                         Settings.Salt = newsalt;
+                        var newpasshash = Crypto.Hash(NewPassword.Password);
                         Settings.HashedPassword = newpasshash;
 
                         //set actual password to new
@@ -89,7 +90,6 @@ namespace PasswordApp
 
                         MessageBox.Show("Password is successfully changed");
                         NavigationService.GoBack();
-
                     }
                 }
             }

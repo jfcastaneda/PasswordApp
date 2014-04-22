@@ -68,9 +68,14 @@
 
     <!-- App bar with single button for adding entry -->
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton IconUri="/appbar.add.png" Text="Add" Click="ApplicationBarIconButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/appbar.check.png" Text="Change Password" Click="ApplicationBarIconButton_Click_1"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="Sort List" Click="Sort_Click"/>
+                <shell:ApplicationBarMenuItem Text="Backup List" Click="Backup_Click"/>
+                <shell:ApplicationBarMenuItem Text="Get Backup" Click="Get_Backup_Click"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     

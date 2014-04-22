@@ -139,14 +139,7 @@ namespace PasswordApp
                             Settings.settings["HashedPassword"] = newpassword;
                             Settings.settings["BackupSet"] = BackupSet.Text;
                             Settings.settings["Salt"] = Settings.Salt;
-                            if (PasswordHint.Text == null)
-                            {
-                                Settings.settings["PasswordHint"] = "No hint! :(";
-                            }
-                            else
-                            {
-                                Settings.settings["PasswordHint"] = PasswordHint.Text;
-                            }
+                            Settings.settings["PasswordHint"] = PasswordHint.Text;
 
                             //then set isloggedin to true and navigate to listviewpage
                             Settings.IsLoggedIn = true;
@@ -163,7 +156,15 @@ namespace PasswordApp
          */
         private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show((string)Settings.settings["PasswordHint"]);
+            if ((string)Settings.settings["PasswordHint"] != null)
+            {
+                MessageBox.Show((string)Settings.settings["PasswordHint"]);
+            }
+            else
+            {
+                MessageBox.Show("No hint! Sorry :(");
+            }
+           
         }
     }
 }

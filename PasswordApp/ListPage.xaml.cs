@@ -116,5 +116,20 @@ namespace PasswordApp
         {
             NavigationService.Navigate(new Uri("/PassChangePage.xaml", UriKind.Relative));
         }
+
+        private void Sort_Click(object sender, EventArgs e)
+        {
+            // nope.
+        }
+
+        private void Backup_Click(object sender, EventArgs e)
+        {
+            // not yet.
+        }
+
+        private void Get_Backup_Click(object sender, EventArgs e)
+        {
+            // someday.
+        }
     }
 }
