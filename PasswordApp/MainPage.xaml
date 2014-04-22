@@ -33,9 +33,9 @@
                     <TextBlock x:Name="NewUserText" Text="Welcome!" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
                     <TextBlock x:Name="NewUserIntro" Text="Choose a password that you will remember. There is no recover it later if you forget it!" Style="{StaticResource PhoneTextNormalStyle}" TextWrapping="Wrap"></TextBlock>
                     <TextBlock x:Name="NewPasswordLabel" Text="New password" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
-                    <TextBox x:Name="NewPassword"></TextBox>
+                    <PasswordBox x:Name="NewPassword"></PasswordBox>
                     <TextBlock x:Name="NewPasswordAgainLabel" Text="Type new password again" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
-                    <TextBox x:Name="NewPasswordAgain"></TextBox>
+                    <PasswordBox x:Name="NewPasswordAgain"></PasswordBox>
                     <TextBlock x:Name="BackupSetLabel" Text="Provide a name for your backup set" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
                     <TextBox x:Name="BackupSet"></TextBox>
                     <TextBlock x:Name="PasswordHintLabel" Text="Password hint (Optional)" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
@@ -44,7 +44,7 @@
                 </StackPanel>
                 <StackPanel x:Name="AlreadyUser" Visibility="Collapsed">
                     <TextBlock x:Name="EnterPasswordLabel" Text="Enter your password" Style="{StaticResource PhoneTextNormalStyle}"></TextBlock>
-                    <TextBox x:Name="EnterPassword"></TextBox>
+                    <PasswordBox x:Name="EnterPassword"></PasswordBox>
                     <Button x:Name="UserOK" Width="250" HorizontalAlignment="Left" Click="UserOK_Click">OK</Button>
                 </StackPanel>
             </Grid>

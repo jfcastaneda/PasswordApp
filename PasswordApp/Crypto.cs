@@ -35,6 +35,7 @@ namespace PasswordApp
         }
         public static string Decrypt(string data, string password)
         {
+            if (data == null) return null;
             var algorithm = GetAlgorithm(password);
             using (MemoryStream memoryStream = new MemoryStream())
             using (CryptoStream cryptoStream = new CryptoStream(

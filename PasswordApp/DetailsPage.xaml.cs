@@ -50,7 +50,10 @@ namespace PasswordApp
                 if(!String.IsNullOrEmpty(curpass.Title)) thetitle.Text = curpass.Title;
 
                 //need to do this with encrypted content now
-                if (!String.IsNullOrEmpty(Crypto.Decrypt(curpass.EncryptedContent, Settings.Password))) thecontent.Text = Crypto.Decrypt(curpass.EncryptedContent, Settings.Password);
+                if(!String.IsNullOrEmpty(curpass.EncryptedContent))
+                {
+                     thecontent.Text = Crypto.Decrypt(curpass.EncryptedContent, Settings.Password);
+                }
             }
 
         }
