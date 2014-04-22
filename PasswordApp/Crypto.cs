@@ -57,7 +57,7 @@ namespace PasswordApp
             RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
  
             //load array of bytes
-            byte[] saltBytes = Settings.SaltBytes;
+            byte[] saltBytes = Settings.Salt;
 
             // fill array with strong sequence of bytes 
             csp.GetBytes(saltBytes); 
@@ -82,7 +82,7 @@ namespace PasswordApp
         static SymmetricAlgorithm GetAlgorithm(string password)
         {
             SymmetricAlgorithm sa = new AesManaged();
-            Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, Settings.SaltBytes);
+            Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, Settings.Salt);
             sa.Key = bytes.GetBytes(sa.KeySize / 8);
             sa.IV = bytes.GetBytes(sa.BlockSize / 8);
             return sa;

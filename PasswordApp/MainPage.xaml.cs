@@ -33,7 +33,7 @@ namespace PasswordApp
             {
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
                 Settings.Password = (string)PhoneApplicationService.Current.State["HashedPassword"];
-                Settings.SaltBytes = (byte[])Settings.settings["SaltBytes"];
+                Settings.Salt = (byte[])Settings.settings["Salt"];
                 Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupSet"];
             }
         }
@@ -59,16 +59,16 @@ namespace PasswordApp
         // Method to handle the click of the ok button on the login or new user page
         private void UserOK_Click(object sender, RoutedEventArgs e)
         {
-            if (Settings.settings.Contains("HashedPassword") && Settings.IsLoggedIn == false)//normal login
+            if (Settings.settings.Contains("HashedPassword") && Settings.IsLoggedIn == false) //normal login
             {
                 //get password from passwordbox and hash it
                 var pass = EnterPassword.Password;
                 var hashPass = Crypto.Hash(pass);
 
                 //then check against password from isolated storage
-                if (hashPass == Settings.HashedPassword)//passwords match
+                if (hashPass == Settings.HashedPassword) //passwords match
                 {
-                    Settings.Password = pass;//set password property
+                    Settings.Password = pass; //set password property
 
                     //create second thread and indicate its method to execute is FetchState
                     Thread worker = new Thread(new ThreadStart(FetchState));
@@ -108,8 +108,8 @@ namespace PasswordApp
                         else//everything is good!
                         {
                             // generate new salt and save it
-                            var salt=Crypto.GenerateNewSalt(16);
-                            Settings.SaltBytes = salt;
+                            var salt = Crypto.GenerateNewSalt(16);
+                            Settings.Salt = salt;
 
                             //hash hassword with it and set settings.hashedpassword
                             var newpassword=Crypto.Hash(NewPassword.Password);
@@ -124,6 +124,7 @@ namespace PasswordApp
                             //save to isolated storage
                             Settings.settings["HashedPassword"] = newpassword;
                             Settings.settings["BackupSet"] = BackupSet.Text;
+                            Settings.settings["Salt"] = Settings.Salt;
                             if (PasswordHint.Text == null)
                             {
                                 Settings.settings["PasswordHint"] = "No hint! :(";

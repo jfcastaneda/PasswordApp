@@ -69,6 +69,7 @@ namespace PasswordApp
             {
                 // This means we have an existing user, go to login page
                 Settings.HashedPassword = (string)Settings.settings["HashedPassword"];
+                Settings.Salt = (byte[])Settings.settings["Salt"];
             }
             else
             {
@@ -86,7 +87,7 @@ namespace PasswordApp
 
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
                 Settings.Password = (string)PhoneApplicationService.Current.State["Password"];
-                Settings.SaltBytes=(byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
+                Settings.Salt=(byte[])Settings.settings["Salt"];// need to fix this depending on format of byte array
                 Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupName"];// gets/sets string backupName.
 
                 if (PhoneApplicationService.Current.State.ContainsKey("PasswordList"))
@@ -108,7 +109,7 @@ namespace PasswordApp
             // save hashed password, password hint, backup name, salt value, and the PasswordsList to both State and isolated storage.
             PhoneApplicationService.Current.State["PasswordHint"] = Settings.PasswordHint;
             PhoneApplicationService.Current.State["Password"] = Settings.Password ;
-            PhoneApplicationService.Current.State["Salt"]= Settings.SaltBytes;
+            PhoneApplicationService.Current.State["Salt"]= Settings.Salt;
             PhoneApplicationService.Current.State["BackupName"]= Settings.BackupSet;// gets/sets string backupName.
             PhoneApplicationService.Current.State["PasswordList"] = Settings.PasswordsList;
             SaveToIsolatedStorage();
@@ -127,7 +128,7 @@ namespace PasswordApp
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             settings["PasswordHint"] = Settings.PasswordHint;
-            settings["Salt"] = Settings.SaltBytes;
+            settings["Salt"] = Settings.Salt;
             settings["BackupName"] = Settings.BackupSet;
             settings["PasswordList"] = Settings.PasswordsList;
             settings.Save();

@@ -33,7 +33,7 @@ namespace PasswordApp
         public static string PasswordHint { get; set; } // gets/sets string PasswordHint.
         public static string Password { get; set; } // gets/sets string password (this is clear text password - kept in memory only during life of app)
         public static bool IsLoggedIn { get; set; } // gets/sets bool isLoggedIn.
-        public static byte[] SaltBytes { get; set; } // gets/sets byte[] salt. this salt is used for password hashing
+        public static byte[] Salt { get; set; } // gets/sets byte[] salt. this salt is used for password hashing
         public static string BackupSet { get; set; } // gets/sets string BackupSet.
 
 
