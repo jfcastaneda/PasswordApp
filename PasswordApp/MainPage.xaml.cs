@@ -33,7 +33,7 @@ namespace PasswordApp
             {
                 Settings.PasswordHint = (string)PhoneApplicationService.Current.State["PasswordHint"];
                 Settings.Password = (string)PhoneApplicationService.Current.State["HashedPassword"];
-                Settings.Salt = (byte[])Settings.settings["Salt"];
+                Settings.SaltBytes = (byte[])Settings.settings["SaltBytes"];
                 Settings.BackupSet = (string)PhoneApplicationService.Current.State["BackupSet"];
             }
         }
@@ -109,7 +109,7 @@ namespace PasswordApp
                         {
                             // generate new salt and save it
                             var salt=Crypto.GenerateNewSalt(16);
-                            Settings.Salt = salt;
+                            Settings.SaltBytes = salt;
 
                             //hash hassword with it and set settings.hashedpassword
                             var newpassword=Crypto.Hash(NewPassword.Password);
@@ -124,6 +124,7 @@ namespace PasswordApp
                             //save to isolated storage
                             Settings.settings["HashedPassword"] = newpassword;
                             Settings.settings["BackupSet"] = BackupSet.Text;
+
                             Settings.settings["PasswordHint"] = PasswordHint.Text;
 
                             //then set isloggedin to true and navigate to listviewpage

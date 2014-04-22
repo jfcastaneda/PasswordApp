@@ -51,7 +51,7 @@ namespace PasswordApp
                         //create and assign new salt and hash
                         var newsalt=Crypto.GenerateNewSalt(16);
                         var newpasshash=Crypto.Hash(NewPassword.Password);
-                        Settings.Salt=newsalt;
+                        Settings.SaltBytes=newsalt;
                         Settings.HashedPassword=newpasshash;
 
                         //set actual password to new

@@ -21,13 +21,13 @@ namespace PasswordApp
             var algorithm = GetAlgorithm(password);
             // Set up streams
             using (MemoryStream memoryStream = new MemoryStream())
-            using (CryptoStream cryptoStream = new CryptoStream(
-              memoryStream, algorithm.CreateEncryptor(), CryptoStreamMode.Write))
+            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, algorithm.CreateEncryptor(), CryptoStreamMode.Write)) 
             {
                 // Convert the original data to bytes then write them to the CryptoStream
                 byte[] buffer = Encoding.UTF8.GetBytes(data);
                 cryptoStream.Write(buffer, 0, buffer.Length);
                 cryptoStream.FlushFinalBlock();
+
                 // Convert the encrypted bytes back into a string
                return Convert.ToBase64String(memoryStream.ToArray());
             }
@@ -35,14 +35,13 @@ namespace PasswordApp
         }
         public static string Decrypt(string data, string password)
         {
+            //to avoid errors
             if (data == null) return null;
             var algorithm = GetAlgorithm(password);
             using (MemoryStream memoryStream = new MemoryStream())
-            using (CryptoStream cryptoStream = new CryptoStream(
-              memoryStream, algorithm.CreateDecryptor(), CryptoStreamMode.Write))
+            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, algorithm.CreateDecryptor(), CryptoStreamMode.Write)) 
             {
-                // Convert the encrypted string to bytes then write them
-                // to the CryptoStream
+                // Convert the encrypted string to bytes then write them to the CryptoStream
                 byte[] buffer = Convert.FromBase64String(data);
                 cryptoStream.Write(buffer, 0, buffer.Length);
                 cryptoStream.FlushFinalBlock();
@@ -55,9 +54,15 @@ namespace PasswordApp
         public static string Hash(string password)
         {
             // create PRNG 
-            RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider(); 
-            // create array of bytes 
-            byte[] saltBytes = new byte[16]; 
+            RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
+ 
+            // create or load array of bytes
+            byte[] saltBytes = new byte[16];
+            if (Settings.settings.Contains("SaltBytes"))
+            {
+               saltBytes = (byte[])Settings.settings["SaltBytes"];
+            }
+
             // fill array with strong sequence of bytes 
             csp.GetBytes(saltBytes); 
             byte[] dataBytes = Encoding.UTF8.GetBytes(password); 
@@ -66,13 +71,14 @@ namespace PasswordApp
             dataBytes.CopyTo(allBytes, saltBytes.Length); 
             byte[] hash = new SHA256Managed().ComputeHash(allBytes); 
             string hashedPassword = Convert.ToBase64String(hash);
+            Settings.settings["SaltBytes"] = saltBytes;
             return hashedPassword;
         }
         public static byte[] GenerateNewSalt(int length)
         {
-
             byte[] random = new Byte[length];
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+
             //getnonzerobytes does not exist on this windows phone verion
             //getbytes is also cryptographically strong and I don't see the advantage of one over the other
             rng.GetBytes(random);
@@ -81,7 +87,7 @@ namespace PasswordApp
         static SymmetricAlgorithm GetAlgorithm(string password)
         {
             SymmetricAlgorithm sa = new AesManaged();
-            Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, Settings.Salt);
+            Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, Settings.SaltBytes);
             sa.Key = bytes.GetBytes(sa.KeySize / 8);
             sa.IV = bytes.GetBytes(sa.BlockSize / 8);
             return sa;
