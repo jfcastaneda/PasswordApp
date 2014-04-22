@@ -71,11 +71,6 @@ namespace PasswordApp
                 Settings.HashedPassword = (string)Settings.settings["HashedPassword"];
                 Settings.Salt = (byte[])Settings.settings["Salt"];
             }
-            else
-            {
-                // This means that we do not have an user, go to new user page
-            }
-
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -131,6 +126,7 @@ namespace PasswordApp
             settings["Salt"] = Settings.Salt;
             settings["BackupName"] = Settings.BackupSet;
             settings["PasswordList"] = Settings.PasswordsList;
+            settings["HashedPassword"] = Settings.HashedPassword;
             settings.Save();
         }
         // Code to execute if a navigation fails
